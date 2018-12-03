@@ -2,14 +2,14 @@
 # import RegionInput from "_db.input.graphql"
 
 type Response {
-    response: String,
+    response: String
 }
 
 type Query { 
     getRegion(RegionId: String!): Region,
     updateRegion(Region: RegionInput): Boolean,
-    getAllRegions(): [Region],
-    removeRegion(RegionId: String!): Boolean,
+    getAllRegions: [Region],
+    removeRegion(RegionId: String!): Boolean
 }
 
 type Mutation {

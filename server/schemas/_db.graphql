@@ -1,7 +1,7 @@
 ###### types
 type MediaData {
-  map: String;
-  shield: String;
+  map: String
+  shield: String
 }
 
 type Region {
