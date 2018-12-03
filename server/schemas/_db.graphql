@@ -1,65 +1,13 @@
 ###### types
-type AddressData {
-  street: String!
-  city: String!
-  state: String!
-  zipcode: String!
+type MediaData {
+  map: String;
+  shield: String;
 }
 
-type OrganizationData {
-  legalName: String!
-  dba: String
-  tin: String!
-  entityType: Int!
-  address: AddressData!
-  website: String
+type Region {
+  name: String
+  regionId: String!
+  rulers: String
+  capital: String
+  media: MediaData
 }
-
-type AuthAdminData {
-  fullName: String!
-  title: String!
-  lastSSN: String!
-  dob: String!
-  primaryPhone: String!
-  secondaryPhone: String
-  address: AddressData!
-  email: String!
-}
-
-type FutureComsData {
-  noticeEmail: String!
-  noticeTitle: String
-  address: AddressData!
-}
-
-type ConfirmationAuthData {
-  representativeName: String!
-  representativeTitle: String!
-  representativeEmail: String!
-}
-
-type SignatoriesData {
-  signatoryName: String!
-  signatoryTitle: String!
-  signatoryEmail: String!
-}
-
-type DetailsData {
-  organization: OrganizationData!
-  authAdmins: [AuthAdminData]!
-  futureComs: FutureComsData!
-  confirmAuthority: [ConfirmationAuthData]!
-  signatories: [SignatoriesData]!
-}
-
-type Application {
-    AssociateUserId: String
-    ApplicationId: String
-    Details: DetailsData
-    Product: String
-    Customers: String
-    CreatedAt: String
-    ModifiedAt: String
-}
-
-

@@ -1,0 +1,18 @@
+{
+  "TableName": "Region",
+  "KeySchema": [
+    { "AttributeName": "RegionId", 
+      "KeyType": "HASH"
+    } 
+  ],
+  "AttributeDefinitions": [
+    {
+      "AttributeName": "RegionId",
+      "AttributeType": "S"
+    }
+  ],
+  "ProvisionedThroughput": {
+    "ReadCapacityUnits": 10,
+    "WriteCapacityUnits": 10
+  }
+}

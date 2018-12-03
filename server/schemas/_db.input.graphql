@@ -1,62 +1,13 @@
 ###### inputs
-input AddressInput {
-  street: String!
-  city: String!
-  state: String!
-  zipcode: String!
+input MediaInput {
+  map: String;
+  shield: String;
 }
 
-input OrganizationInput {
-  legalName: String!
-  dba: String
-  tin: String!
-  entityType: Int!
-  address: AddressInput!
-  website: String
-}
-
-input AuthAdminInput {
-  fullName: String!
-  title: String!
-  lastSSN: String!
-  dob: String!
-  primaryPhone: String!
-  secondaryPhone: String
-  address: AddressInput!
-  email: String!
-}
-
-input FutureComsInput {
-  noticeEmail: String!
-  noticeTitle: String
-  address: AddressInput!
-}
-
-input ConfirmationAuthInput {
-  representativeName: String!
-  representativeTitle: String!
-  representativeEmail: String!
-}
-
-input SignatoriesInput {
-  signatoryName: String!
-  signatoryTitle: String!
-  signatoryEmail: String!
-}
-
-input DetailsInput {
-  organization: OrganizationInput!
-  authAdmins: [AuthAdminInput]
-  futureComs: FutureComsInput
-  confirmAuthority: [ConfirmationAuthInput]
-  signatories: [SignatoriesInput]
-}
-
-input ApplicationInput {
-    associateUserId: String!
-    applicationId: String
-    details: DetailsInput!
-    product: String!
-    customers: String!
-    notify: Boolean
+input RegionInput {
+  name: String
+  regionId: String!
+  rulers: String
+  capital: String
+  media: MediaInput
 }

@@ -1,0 +1,36 @@
+{
+  "Region": [
+      {
+          "PutRequest": {
+              "Item": {
+                  "Name": {"S":"The North"},
+                  "RegionId": {"S":"north01"},
+                  "Rulers": {"S":"House Stark"},
+                  "Capital": {"S":"Winterfell"},
+                  "Media": {
+                    "M": {
+                      "Map": {"S": "https://vignette.wikia.nocookie.net/gameofthrones/images/f/f3/The_North.png/revision/latest/scale-to-width-down/100?cb=20120719200112"},
+                      "Shield": {"S": "https://vignette.wikia.nocookie.net/gameofthrones/images/8/8a/House-Stark-Main-Shield.PNG/revision/latest/scale-to-width-down/100?cb=20170101103142"}
+                    }
+                  }
+              }
+          }
+      },
+      {
+        "PutRequest": {
+            "Item": {
+                "Name": {"S":"The Vale of Arryn"},
+                "RegionId": {"S":"arryn01"},
+                "Rulers": {"S":"House Arryn"},
+                "Capital": {"S":"The Eyrie"},
+                "Media": {
+                  "M": {
+                    "Map": {"S": "https://vignette.wikia.nocookie.net/gameofthrones/images/d/d7/Vale_of_Arryn.png/revision/latest/scale-to-width-down/100?cb=20120719201619"},
+                    "Shield": {"S": "https://vignette.wikia.nocookie.net/gameofthrones/images/1/15/House-Arryn-Main-Shield.PNG/revision/latest/scale-to-width-down/100?cb=20170101094153"}
+                  }
+                }
+            }
+        }
+    }
+  ]
+}

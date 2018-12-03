@@ -1,95 +1,54 @@
-import { notifies } from './_notificationResolver';
-
 const AWS = require('aws-sdk');
 const uniqid = require('uniqid');
 
 AWS.config.update({
-    region: "us-east-1",
- //  endpoint: "https://dynamodb.us-east-1.amazonaws.com",
+    region: "us-east-2",
+     //  endpoint: "https://dynamodb.us-east-2.amazonaws.com",
      endpoint: "http://localhost:8000",
-    
-    // httpOptions: {
-    //     proxy: "http://entproxy.kdc.capitalone.com:8099"
-    //   }
 });
 
-let TableName = "CmlcardAppertureApplication";
+const TableName = "Region";
 var dynamodb = new AWS.DynamoDB({apiVersion: '2012-10-08'});
 
 const _deconstructRecord = (record: any) => Object.assign({...record}, { Details: JSON.parse(record.Details)});
 
 const timestamp = new Date().toISOString();
 
-const testNotification = {
-    "notificationEventCategory":"ICCEWEB",
-    "notificationEventCode":"TESTEVNT",
-    "notificationData":[
-    {"key":"to","value":"Dream Builders"},
-    {"key":"desc","value":"Test"},
-    {"key":"system","value":"GraphQL POC"},
-    {"key":"from","value":"Local"}
-    ],
-    
-      "contacts" : [{
-        "contactPoint" : "Chienyi.Hung@capitalone.com",
-        "contactType" : "EMAIL"
-      }]
-    };
-
-export const createTable = (root: any, tableName: any, context: any, info: any) => {
-    return new Promise(function(resolve, reject){
-        var params = {
-            TableName : TableName,
-            KeySchema: [
-                { AttributeName: "AssociateUserId", KeyType: "HASH"},   //Partition key
-                { AttributeName: "ApplicationId", KeyType: "RANGE"}  //Sort key
-            ],
-            AttributeDefinitions: [
-                { AttributeName: "AssociateUserId", AttributeType: "S"},
-                { AttributeName: "ApplicationId", AttributeType: "S"}
-            ],
-            ProvisionedThroughput: {
-                ReadCapacityUnits: 10,
-                WriteCapacityUnits: 10
-            }
-        };
-        dynamodb.createTable(params, function(err, data) {
-            if (err){
-                reject("Table creation failure");
-            } else {
-                resolve(data);
-            }
-        })
-    }).then(function(value){
-        return {response : "Table created successfully."}
-    }).catch(function(reason){
-        return {response : reason}
-    });
+interface Media {
+    Map: string;
+    Shield: string;  
+}
+interface Region {
+    Name: string;
+    RegionId: string;
+    Rulers: string;
+    Capital: string;
+    Media: Media
 }
 
-export const insertApplication = (root: any, application: any, context: any, info: any) => {
+export const insertRegion = (root: any, Region: Region, context: any, info: any) => {
     
-    application = application.application
-    // TODO need to generated uuid
-    const associateUserId: string = application.associateUserId;
-    const applicationId: string = uniqid.process();
-    const details: string[] = application.details;
-    const product: string = application.product;
-    const customers: string = application.customers;
-    const notify: string = application.notify;
-
-    const detailsString = JSON.stringify(details);
+    const name: string = Region.Name;
+    const regionId: string = uniqid.process();
+    const rulers: string = Region.Rulers;
+    const capital: string = Region.Capital;
+    const map: string = Region.Media.Map;
+    const shield: string = Region.Media.Shield;
 
     return new Promise(function(resolve, reject){
         var params = {
             TableName: TableName,
             Item: {
-                "AssociateUserId": {S: associateUserId},
-                "ApplicationId": {S: applicationId},
-                "Details": {S: detailsString},
-                "Product": {S: product},
-                "Customers": {S: customers},
-                "CreatedAt": {S: timestamp}
+                "Name": {S: name},
+                "RegionId": {S: regionId},
+                "Rulers": {S: rulers},
+                "Capital": {S: capital},
+                "Media": {
+                  M: {
+                    "Map": {S: map},
+                    "Shield": {S: shield}    
+                  }
+                }
             }
         }
         dynamodb.putItem(params, function(err, data){
@@ -100,39 +59,46 @@ export const insertApplication = (root: any, application: any, context: any, inf
             }
         });
     }).then(function(value){
-        if(notify){            
-            notifies(testNotification);
-        }
-        return { response: "Application created successfully, id: " + applicationId };
+        return { response: "Region created successfully, id: " + regionId };
     }).catch(function(reason){
         return {response: reason};
     });
 }
 
-export const updateApplication = (root: any, application: any, context: any, info: any) => {
+export const updateRegion = (root: any, Region: Region, context: any, info: any) => {
     return new Promise(function(resolve, reject){
-        application = application.application;
-        const associateUserId: string = application.associateUserId;
-        const applicationId: string = application.applicationId;
-        const details: string[] = application.details;
-        const product: string = application.product;
-        const customers: string = application.customers;
+
+      const name: string = Region.Name;
+      const regionId: string = Region.RegionId;
+      const rulers: string = Region.Rulers;
+      const capital: string = Region.Capital;
+      const media: Media = Region.Media;
+      // const map: string = Region.Media.Map;
+      // const shield: string = Region.Media.Shield;
 
         var update_expression = "SET";
         var expression_attribute_values = {}
 
-        if (typeof details != "undefined"){
-            update_expression += " Details = :details,"
-            expression_attribute_values[':details'] = {'S' : JSON.stringify(details)}
+        if (typeof rulers != "undefined"){
+            update_expression += " Rulers = :rulers,"
+            expression_attribute_values[':rulers'] = {'S' : rulers}
         }
-        if (typeof product != "undefined"){
-            update_expression += " Product = :product,"
-            expression_attribute_values[':product'] = {'S' : product}
+        if (typeof capital != "undefined"){
+            update_expression += " Capital = :capital,"
+            expression_attribute_values[':capital'] = {'S' : capital}
         }
-        if (typeof customers != "undefined"){
-            update_expression += " Customers = :customers,"
-            expression_attribute_values[':customers'] = {'S' : customers}
+        if (typeof media != "undefined"){
+          update_expression += " Media = :media,"
+          expression_attribute_values[':media'] = {'M' : media}
         }
+        // if (typeof map != "undefined"){
+        //   update_expression += " Map = :map,"
+        //   expression_attribute_values[':map'] = {'S' : map}
+        // }
+        // if (typeof shield != "undefined"){
+        //   update_expression += " Shield = :shield,"
+        //   expression_attribute_values[':shield'] = {'S' : shield}
+        // }
 
         update_expression += " ModifiedAt = :modifiedAt,"
         expression_attribute_values[':modifiedAt'] = {'S' : timestamp}
@@ -144,8 +110,7 @@ export const updateApplication = (root: any, application: any, context: any, inf
         var params = {
             TableName: TableName,
             Key: {
-                AssociateUserId: {S: associateUserId},
-                ApplicationId: {S: applicationId}
+                RegionId: {S: regionId}
             },
             UpdateExpression : update_expression,
             ExpressionAttributeValues : expression_attribute_values
@@ -165,13 +130,13 @@ export const updateApplication = (root: any, application: any, context: any, inf
         });
 }
 
-export const removeApplication = (root: any, {associateUserId, applicationId}: any, context: any, info: any) => {
+export const removeRegion = (root: any, {associateUserId, RegionId}: any, context: any, info: any) => {
     return new Promise(function(resolve, reject){
         var params = {
             TableName: TableName,
             Key: {
                 AssociateUserId: {S: associateUserId},
-                ApplicationId: {S: applicationId}
+                RegionId: {S: RegionId}
             }
         }
         dynamodb.deleteItem(params, function(err, data){
@@ -188,14 +153,40 @@ export const removeApplication = (root: any, {associateUserId, applicationId}: a
     });
 }
 
-export const getApplications = (root: any, {associateUserId}: any, context: any, info: any) => {
+// export const getRegions = (root: any, {associateUserId}: any, context: any, info: any) => {
+//     return new Promise(function(resolve, reject){
+//         let params = {
+//             TableName: TableName,
+//             KeyConditionExpression: "AssociateUserId = :idNum",
+//             ExpressionAttributeValues: {":idNum": {"S": associateUserId}}
+//         }
+//         dynamodb.query(params, function(err, data){
+//             if (err) {
+//                 reject(err);
+//             } else {
+//                 resolve(data);
+//             }
+//         });
+//     }).then(function(value: any){
+//         var return_val: string[] = [];
+//         for (var item of value.Items) {
+//             const record = _deconstructRecord(AWS.DynamoDB.Converter.unmarshall(item));
+//             return_val.push(record);
+//         }
+//         return return_val.reverse();
+//     }).catch(function(reason){
+//         return [{response: reason}];
+//     });
+// }
+
+export const getAllRegions = (root: any, {}: any, context: any, info: any) => {
     return new Promise(function(resolve, reject){
         let params = {
             TableName: TableName,
-            KeyConditionExpression: "AssociateUserId = :idNum",
-            ExpressionAttributeValues: {":idNum": {"S": associateUserId}}
+            // KeyConditionExpression: "AssociateUserId = :idNum",
+            // ExpressionAttributeValues: {":idNum": {"S": RegionId}}
         }
-        dynamodb.query(params, function(err, data){
+        dynamodb.scan(params, function(err, data){
             if (err) {
                 reject(err);
             } else {
@@ -214,13 +205,12 @@ export const getApplications = (root: any, {associateUserId}: any, context: any,
     });
 }
 
-export const getApplication = (root: any, {associateUserId, applicationId}: any, context: any, info: any) => {
+export const getRegion = (root: any, {RegionId}: any, context: any, info: any) => {
     return new Promise(function(resolve, reject){
         var params = {
             TableName: TableName,
             Key: {
-                AssociateUserId: {S: associateUserId},
-                ApplicationId: {S: applicationId}
+                RegionId: {S: RegionId}
             }
         }
         dynamodb.getItem(params, function(err, data){

@@ -1,23 +1,17 @@
-# import Sso from "_sso.graphql"
-# import Notification from "_notification.graphql"
-# import Application from "_db.graphql"
-# import ApplicationInput from "_db.input.graphql"
+# import Region from "_db.graphql"
+# import RegionInput from "_db.input.graphql"
 
 type Response {
     response: String,
 }
 
 type Query { 
-    getAccessToken(authCode: String!): Sso,
-    authenticate(accessToken: String!): Boolean,
-    createTable: Response,
-    getApplication(associateUserId: String!, applicationId: String!): Application,
-    updateApplication(application: ApplicationInput): Boolean,
-    getApplications(associateUserId: String): [Application],
-    removeApplication(associateUserId: String!, applicationId: String!): Boolean,
-    sendNotification(notification: Notification): String
+    getRegion(RegionId: String!): Region,
+    updateRegion(Region: RegionInput): Boolean,
+    getAllRegions(): [Region],
+    removeRegion(RegionId: String!): Boolean,
 }
 
 type Mutation {
-    insertApplication(application: ApplicationInput): Response,
+    insertRegion(Region: RegionInput): Response,
 }
