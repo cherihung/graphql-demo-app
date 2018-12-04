@@ -10,8 +10,6 @@ AWS.config.update({
 const TableName = "Region";
 var dynamodb = new AWS.DynamoDB({apiVersion: '2012-10-08'});
 
-const _deconstructRecord = (record: any) => Object.assign({...record}, { Details: JSON.parse(record.Details)});
-
 const timestamp = new Date().toISOString();
 
 interface Media {
@@ -25,6 +23,9 @@ interface Region {
     Capital: string;
     Media: Media
 }
+
+const _deconstructRecord = (record: Region) => Object.assign({...record});
+
 
 export const insertRegion = (root: any, Region: Region, context: any, info: any) => {
     
@@ -130,12 +131,11 @@ export const updateRegion = (root: any, Region: Region, context: any, info: any)
         });
 }
 
-export const removeRegion = (root: any, {associateUserId, RegionId}: any, context: any, info: any) => {
+export const removeRegion = (root: any, {RegionId}, context: any, info: any) => {
     return new Promise(function(resolve, reject){
         var params = {
             TableName: TableName,
             Key: {
-                AssociateUserId: {S: associateUserId},
                 RegionId: {S: RegionId}
             }
         }
@@ -179,7 +179,7 @@ export const removeRegion = (root: any, {associateUserId, RegionId}: any, contex
 //     });
 // }
 
-export const getAllRegions = (root: any, {}: any, context: any, info: any) => {
+export const getAllRegions = (root: any, {}, context: any, info: any) => {
     return new Promise(function(resolve, reject){
         let params = {
             TableName: TableName,

@@ -7,7 +7,7 @@ export class Server {
 
     public app: express.Application;
     public server;
-    public PORT: number = parseInt(process.env.PORT as string) || 3000;
+    public PORT: number = parseInt(process.env.PORT as string) || 4000;
 
     constructor() {
         this.app = express();
@@ -15,7 +15,7 @@ export class Server {
     }
 
     /**
-     * Configure the express app.
+     * Configure server
      */
     private config(): void {
         this.app.use(cors());
@@ -42,9 +42,8 @@ export class Server {
 
     /**
      * Start the server
-     * @returns {Promise<any>}
      */
-    public start(schema: any): Promise<{}> {
+    public start(schema): Promise<{}> {
 
         // The GraphQL endpoint
         this.app.use('/graphql', bodyParser.json(), graphqlExpress({ 
@@ -67,8 +66,7 @@ export class Server {
     }
 
     /**
-     * Stop the server (if running).
-     * @returns {Promise<boolean>}
+     * Stop the server
      */
     public stop(): Promise<boolean> {
         return new Promise<boolean>((resolve, reject) => {

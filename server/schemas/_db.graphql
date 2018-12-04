@@ -1,13 +1,13 @@
 ###### types
 type MediaData {
-  map: String
-  shield: String
+  Map: String
+  Shield: String
 }
 
 type Region {
-  name: String
-  regionId: String!
-  rulers: String
-  capital: String
-  media: MediaData
+  Name: String
+  RegionId: String!
+  Rulers: String
+  Capital: String
+  Media: MediaData
 }

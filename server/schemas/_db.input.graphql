@@ -1,13 +1,13 @@
 ###### inputs
 input MediaInput {
-  map: String
-  shield: String
+  Map: String
+  Shield: String
 }
 
 input RegionInput {
-  name: String
-  regionId: String!
-  rulers: String
-  capital: String
-  media: MediaInput
+  Name: String
+  RegionId: String!
+  Rulers: String
+  Capital: String
+  Media: MediaInput
 }
