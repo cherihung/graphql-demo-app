@@ -5,8 +5,8 @@ input MediaInput {
 }
 
 input RegionInput {
-  Name: String
-  RegionId: String!
+  Name: String!
+  RegionId: String
   Rulers: String
   Capital: String
   Media: MediaInput

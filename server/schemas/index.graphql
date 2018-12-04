@@ -6,9 +6,9 @@ type Response {
 }
 
 type Query { 
-    getRegion(RegionId: String!): Region,
+    region(RegionId: String!): Region,
     updateRegion(Region: RegionInput): Boolean,
-    getAllRegions: [Region],
+    regions: [Region],
     removeRegion(RegionId: String!): Boolean
 }
 

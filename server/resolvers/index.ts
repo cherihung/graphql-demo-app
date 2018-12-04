@@ -2,8 +2,8 @@ import * as fromDynamoResolvers from './_dynamoResolver';
 
 export default {
   Query: {
-    getRegion: fromDynamoResolvers.getRegion,
-    getAllRegions: fromDynamoResolvers.getAllRegions,
+    region: fromDynamoResolvers.getRegion,
+    regions: fromDynamoResolvers.getAllRegions,
     updateRegion: fromDynamoResolvers.updateRegion,
     removeRegion: fromDynamoResolvers.removeRegion
   },

@@ -57,7 +57,7 @@ export class Server {
                 if (err) {
                     return reject(err);
                 }
-                console.log('Go to http://localhost:3000/graphiql to run queries!');
+                console.log('Go to http://localhost:4000/graphiql to run queries!');
 
                 return resolve();
             });

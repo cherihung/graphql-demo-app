@@ -27,8 +27,9 @@ interface Region {
 const _deconstructRecord = (record: Region) => Object.assign({...record});
 
 
-export const insertRegion = (root: any, Region: Region, context: any, info: any) => {
+export const insertRegion = (root: any, region: any, context: any, info: any) => {
     
+    const Region = region.Region;
     const name: string = Region.Name;
     const regionId: string = uniqid.process();
     const rulers: string = Region.Rulers;
