@@ -14,7 +14,7 @@
   "dependencies": {
     "@types/request-promise": "^4.1.42",
     "apollo-errors": "^1.9.0",
-    "apollo-server-express": "^1.4.0",
+    "apollo-server-express": "^2.14.2",
     "aws-sdk": "^2.291.0",
     "base-64": "^0.1.0",
     "body-parser": "^1.18.3",
